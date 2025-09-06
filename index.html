@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sports Team Registration</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+        padding: 20px;
+        color: #1e293b;
+        position: relative;
+        overflow-x: hidden;
+      }
+      
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(147, 197, 253, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(219, 234, 254, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+      }
+      
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px 0;
+        animation: fadeInDown 0.8s ease-out;
+      }
+      
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      .welcome-text {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 18px;
+        margin-bottom: 8px;
+        font-weight: 400;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+      
+      .main-title {
+        color: #ffffff;
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 0;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+      }
+      
+      .form-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 
+          0 20px 40px rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgba(255, 255, 255, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        animation: scaleIn 0.8s ease-out 0.6s both;
+        position: relative;
+      }
+      
+      .form-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%);
+        border-radius: 24px 24px 0 0;
+      }
+      
+      .form-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 
+          0 25px 50px rgba(0, 0, 0, 0.15),
+          0 0 0 1px rgba(255, 255, 255, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 28px;
+        padding-bottom: 16px;
+        border-bottom: 3px solid transparent;
+        border-image: linear-gradient(90deg, #3b82f6, #93c5fd, transparent) 1;
+        position: relative;
+      }
+      
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #3b82f6 0%, #93c5fd 100%);
+        border-radius: 2px;
+      }
+      
+      .form-group {
+        margin-bottom: 24px;
+      }
+      
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 10px;
+        font-size: 15px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        transition: color 0.2s ease;
+      }
+      
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid #e0f2fe;
+        border-radius: 16px;
+        font-size: 16px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        position: relative;
+      }
+      
+      .form-group input:hover,
+      .form-group select:hover {
+        border-color: #93c5fd;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        transform: translateY(-1px);
+      }
+      
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 
+          0 0 0 4px rgba(59, 130, 246, 0.1),
+          0 8px 25px rgba(59, 130, 246, 0.15);
+        transform: translateY(-2px);
+      }
+      
+      .form-group input:active,
+      .form-group select:active {
+        transform: translateY(0);
+      }
+      
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      
+      @media (max-width: 768px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      
+      .player-card {
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        border: 2px solid #e0f2fe;
+        border-radius: 20px;
+        padding: 28px;
+        margin-bottom: 24px;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: fadeInUp 0.6s ease-out;
+        overflow: hidden;
+      }
+      
+      .player-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.6s ease;
+      }
+      
+      .player-card:hover {
+        border-color: #3b82f6;
+        box-shadow: 
+          0 12px 30px rgba(59, 130, 246, 0.1),
+          0 0 0 1px rgba(59, 130, 246, 0.1);
+        transform: translateY(-4px) scale(1.02);
+      }
+      
+      .player-card:hover::before {
+        left: 100%;
+      }
+      
+      .player-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      
+      .player-number {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 16px;
+        margin-right: 16px;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .player-number::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transform: rotate(45deg);
+        transition: all 0.6s ease;
+        opacity: 0;
+      }
+      
+      .player-card:hover .player-number {
+        transform: rotate(360deg) scale(1.1);
+      }
+      
+      .player-card:hover .player-number::before {
+        opacity: 1;
+        transform: rotate(45deg) translate(50%, 50%);
+      }
+      
+      .player-title {
+        font-size: 20px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .btn {
+        padding: 16px 32px;
+        border: none;
+        border-radius: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+      }
+      
+      .btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      }
+      
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+      }
+      
+      .btn-primary:active {
+        transform: translateY(-1px) scale(1.02);
+      }
+      
+      .btn-secondary {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        color: #475569;
+        border: 2px solid #cbd5e1;
+        box-shadow: 0 4px 12px rgba(71, 85, 105, 0.1);
+      }
+      
+      .btn-secondary:hover {
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        border-color: #94a3b8;
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(71, 85, 105, 0.2);
+      }
+      
+      .btn-secondary:active {
+        transform: translateY(-1px) scale(1.02);
+      }
+      
+      .button-group {
+        display: flex;
+        gap: 16px;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 2px solid transparent;
+        border-image: linear-gradient(90deg, #e0f2fe, #3b82f6, #e0f2fe) 1;
+      }
+      
+      .status-badge {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        50% {
+          box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5);
+        }
+      }
+      
+      .file-input-wrapper {
+        position: relative;
+        display: block;
+        width: 100%;
+      }
+      
+      .file-input-wrapper input[type="file"] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 2;
+      }
+      
+      .file-input-display {
+        display: block;
+        padding: 20px;
+        border: 3px dashed #93c5fd;
+        border-radius: 16px;
+        text-align: center;
+        color: #3b82f6;
+        font-size: 16px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      
+      .file-input-display::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+        transform: rotate(45deg);
+        transition: all 0.6s ease;
+        opacity: 0;
+      }
+      
+      .file-input-wrapper:hover .file-input-display {
+        border-color: #1d4ed8;
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #1e40af;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        border-width: 3px;
+      }
+      
+      .file-input-wrapper:hover .file-input-display::before {
+        opacity: 1;
+        transform: rotate(45deg) translate(50%, 50%);
+      }
+      
+      .file-selected {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+        border-color: #10b981 !important;
+        color: #065f46 !important;
+      }
+      
+      .loading {
+        opacity: 0.7;
+        pointer-events: none;
+        position: relative;
+      }
+      
+      .loading::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(2px);
+        border-radius: 24px;
+        z-index: 1000;
+      }
+      
+      .success-message {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        padding: 20px;
+        border-radius: 16px;
+        margin-top: 24px;
+        display: none;
+        border: 1px solid #6ee7b7;
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+        animation: slideInUp 0.5s ease-out;
+      }
+      
+      .error-message {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+        padding: 20px;
+        border-radius: 16px;
+        margin-top: 24px;
+        display: none;
+        border: 1px solid #f87171;
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
+        animation: slideInUp 0.5s ease-out;
+      }
+      
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* Ripple effect for buttons */
+      .btn {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn:active::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        animation: ripple 0.6s ease-out;
+      }
+      
+      @keyframes ripple {
+        to {
+          width: 300px;
+          height: 300px;
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="welcome-text">Registration Form</div>
+        <h1 class="main-title">Inter NIT, VNIT</h1>
+      </div>
+
+      <div class="form-card">
+        <form id="teamForm" enctype="multipart/form-data">
+          <h2 class="section-title">Team Registration</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>College Name:</label>
+              <select name="college_name" required>
+                <option value="">Select NIT</option>
+                <option value="NIT Agartala">NIT Agartala</option>
+                <option value="NIT Allahabad">NIT Allahabad (MNNIT)</option>
+                <option value="NIT Andhra Pradesh">NIT Andhra Pradesh</option>
+                <option value="NIT Arunachal Pradesh">
+                  NIT Arunachal Pradesh
+                </option>
+                <option value="NIT Bhopal">NIT Bhopal (MANIT)</option>
+                <option value="NIT Calicut">NIT Calicut</option>
+                <option value="NIT Delhi">NIT Delhi</option>
+                <option value="NIT Durgapur">NIT Durgapur</option>
+                <option value="NIT Goa">NIT Goa</option>
+                <option value="NIT Guwahati">NIT Guwahati</option>
+                <option value="NIT Hamirpur">NIT Hamirpur</option>
+                <option value="NIT Jaipur">NIT Jaipur (MNIT)</option>
+                <option value="NIT Jamshedpur">NIT Jamshedpur</option>
+                <option value="NIT Jalandhar">
+                  NIT Jalandhar (Dr. B R Ambedkar NIT)
+                </option>
+                <option value="NIT Karnataka">
+                  NIT Karnataka (NITK Surathkal)
+                </option>
+                <option value="NIT Kurukshetra">NIT Kurukshetra</option>
+                <option value="NIT Meghalaya">NIT Meghalaya</option>
+                <option value="NIT Mizoram">NIT Mizoram</option>
+                <option value="NIT Nagaland">NIT Nagaland</option>
+                <option value="NIT Patna">NIT Patna</option>
+                <option value="NIT Puducherry">NIT Puducherry</option>
+                <option value="NIT Raipur">NIT Raipur</option>
+                <option value="NIT Rourkela">NIT Rourkela</option>
+                <option value="NIT Silchar">NIT Silchar</option>
+                <option value="NIT Sikkim">NIT Sikkim</option>
+                <option value="NIT Srinagar">NIT Srinagar</option>
+                <option value="NIT Surat">NIT Surat (SVNIT)</option>
+                <option value="NIT Tiruchirappalli">
+                  NIT Tiruchirappalli (NIT Trichy)
+                </option>
+                <option value="NIT Uttarakhand">NIT Uttarakhand</option>
+                <option value="NIT Warangal">NIT Warangal</option>
+                <option value="VNIT Nagpur">VNIT Nagpur</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Team Leader ID:</label>
+              <input type="text" name="team_leader" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Sport:</label>
+              <select name="sport" required>
+                <option value="">Select Sport</option>
+                <option value="Lawn Tennis">Lawn Tennis</option>
+                <option value="Hand ball">Hand Ball</option>
+                <option value="Yoga">Yoga</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Gender:</label>
+              <select name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- ✅ New Coach Details -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Coach Name:</label>
+              <input type="text" name="coach_name" required />
+            </div>
+            <div class="form-group">
+              <label>Coach Contact:</label>
+              <input type="text" name="coach_contact" required />
+            </div>
+          </div>
+
+          <h3 class="section-title" style="margin-top: 40px">
+            Players
+            <span class="status-badge">Active</span>
+          </h3>
+
+          <div id="players"></div>
+
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addPlayer()"
+            >
+              ➕ Add Player
+            </button>
+            <button type="submit" class="btn btn-primary">
+              ✅ Submit Registration
+            </button>
+          </div>
+
+          <div id="successMessage" class="success-message">
+            ✅ Team registered successfully!
+          </div>
+          <div id="errorMessage" class="error-message">
+            ❌ Error submitting form. Please try again.
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let playerCount = 0;
+
+      function addPlayer() {
+        playerCount++;
+        const container = document.getElementById("players");
+
+        const div = document.createElement("div");
+        div.classList.add("player-card");
+
+        div.innerHTML = `
+        <div class="player-header">
+          <div class="player-number">${playerCount}</div>
+          <div class="player-title">Player ${playerCount}</div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Player Name:</label>
+            <input type="text" name="player_names" required>
+          </div>
+          <div class="form-group">
+            <label>College ID:</label>
+            <input type="text" name="college_ids" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone:</label>
+            <input type="text" name="phones" required>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" name="emails" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>College ID Photo:</label>
+          <div class="file-input-wrapper">
+            <input type="file" name="id_photos" accept="image/*" required onchange="updateFileDisplay(this)">
+            <span class="file-input-display">📁 Choose file or drag and drop</span>
+          </div>
+        </div>
+      `;
+        container.appendChild(div);
+      }
+
+      document
+        .getElementById("teamForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const form = e.target;
+          const formData = new FormData(form);
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const successMsg = document.getElementById("successMessage");
+          const errorMsg = document.getElementById("errorMessage");
+
+          // Hide previous messages
+          successMsg.style.display = "none";
+          errorMsg.style.display = "none";
+
+          // Show loading state
+          submitBtn.textContent = "🔄 Submitting...";
+          submitBtn.disabled = true;
+          form.classList.add("loading");
+
+          try {
+            const response = await fetch(
+              "http://127.0.0.1:8000/register_team/",
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
+
+            const result = await response.json();
+
+            if (response.ok) {
+              successMsg.style.display = "block";
+              console.log("Registration successful:", result);
+              form.reset();
+              document.getElementById("players").innerHTML = "";
+              playerCount = 0;
+            } else {
+              throw new Error(result.detail || "Registration failed");
+            }
+          } catch (err) {
+            errorMsg.style.display = "block";
+            errorMsg.textContent = `❌ ${err.message}`;
+            console.error("Registration error:", err);
+          } finally {
+            // Reset loading state
+            submitBtn.textContent = "✅ Submit Registration";
+            submitBtn.disabled = false;
+            form.classList.remove("loading");
+          }
+        });
+
+      // Add file display update function
+      function updateFileDisplay(input) {
+        const display = input.nextElementSibling;
+        if (input.files && input.files[0]) {
+          const fileName = input.files[0].name;
+          display.innerHTML = `✅ ${fileName}`;
+          display.classList.add('file-selected');
+        } else {
+          display.innerHTML = '📁 Choose file or drag and drop';
+          display.classList.remove('file-selected');
+        }
+      }
+
+      // Add initial player
+      addPlayer();
+    </script>
+  </body>
+</html>
